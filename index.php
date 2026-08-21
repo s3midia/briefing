@@ -54,11 +54,11 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
     }
     .brand { display:flex; align-items:center; gap:13px; }
     .brand-mark {
-      width: 48px; height: 48px; border-radius: 14px; background: var(--black);
-      display:grid; place-items:center; overflow:hidden;
+      width: 52px; height: 52px; border-radius: 16px; background: var(--black);
+      display:grid; place-items:center; overflow:hidden; padding: 5px;
       box-shadow: 0 10px 26px rgba(0,0,0,.18);
     }
-    .brand-mark img { width: 30px; height: 44px; object-fit: cover; filter: invert(1); }
+    .brand-mark img { width: 100%; height: 100%; object-fit: contain; filter: invert(1); }
     .brand-name { font-weight: 780; letter-spacing: -.02em; line-height: 1.05; }
     .brand-name small { display:block; color: var(--muted); font-size: 11px; font-weight: 620; letter-spacing:.04em; margin-top:4px; }
     .badge {
