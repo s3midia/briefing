@@ -577,6 +577,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
     const target = [...form.querySelectorAll('[name]')].find(el => el.name === serverErrorField);
     const targetStep = target ? steps.findIndex(step => step.contains(target)) : -1;
     if (targetStep >= 0) showStep(targetStep);
+    errorBox.classList.add('show');
     if (target) {
       target.classList.add('server-error-focus');
       window.setTimeout(() => target.focus({preventScroll:true}), 80);
