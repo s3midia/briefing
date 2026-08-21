@@ -224,7 +224,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
             <div><h2>Perfil profissional</h2><p>Começamos pela sua história e pelo momento atual da carreira.</p></div>
           </div>
           <div class="grid">
-            <div class="field"><label for="nome">Nome completo *</label><input id="nome" name="Nome completo" type="text" value="<?= e($clientName) ?>" required></div>
+            <div class="field"><label for="nome">Nome completo</label><input id="nome" name="Nome completo" type="text" value="<?= e($clientName) ?>"></div>
             <div class="field"><label for="nome_prof">Nome profissional desejado *</label><input id="nome_prof" name="Nome profissional" type="text" placeholder="Ex.: <?= e($clientName) ?> Advocacia" required></div>
             <div class="field"><label for="cidade">Cidade / região de atuação *</label><input id="cidade" name="Cidade ou região" type="text" required></div>
             <div class="field"><label for="oab">OAB</label><input id="oab" name="OAB" type="text" placeholder="Informe se já estiver disponível"></div>
