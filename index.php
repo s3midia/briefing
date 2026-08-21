@@ -156,6 +156,10 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
     }
     .error.show { display:block; }
     .server-error-focus { outline:3px solid #d65b4f; outline-offset:3px; }
+    .required-error { border-color:#cc463d !important; box-shadow:0 0 0 3px rgba(204,70,61,.16) !important; animation:requiredPulse 1.15s ease-in-out 2; }
+    .required-hint { display:block; margin-top:6px; color:#b5352d; font-size:12px; font-weight:750; }
+    .consent.required-error { outline:3px solid #cc463d; outline-offset:2px; }
+    @keyframes requiredPulse { 0%,100%{box-shadow:0 0 0 3px rgba(204,70,61,.14)} 50%{box-shadow:0 0 0 7px rgba(204,70,61,.28)} }
 
     footer { padding: 0 0 38px; text-align:center; color:#737572; font-size:11px; }
     footer strong { color:#111; }
@@ -497,20 +501,52 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
     window.scrollTo({ top: document.querySelector('.progress-wrap').offsetTop - 10, behavior: 'smooth' });
   }
 
+  function fieldTitle(el) {
+    const label = el.id ? document.querySelector(`label[for="${CSS.escape(el.id)}"]`) : null;
+    return label ? label.textContent.replace('*', '').trim() : 'Este campo';
+  }
+
+  function clearRequiredError(el) {
+    el.classList.remove('required-error', 'server-error-focus');
+    el.removeAttribute('aria-invalid');
+    const hint = el.closest('.consent')?.querySelector('.required-hint') || el.parentElement?.querySelector('.required-hint');
+    if (hint) hint.remove();
+  }
+
+  function markRequiredError(el) {
+    const visualTarget = el.closest('.consent') || el;
+    visualTarget.classList.add('required-error');
+    el.setAttribute('aria-invalid', 'true');
+    const container = visualTarget.closest('.field') || visualTarget.parentElement;
+    if (container && !container.querySelector('.required-hint')) {
+      const hint = document.createElement('span');
+      hint.className = 'required-hint';
+      hint.textContent = `${fieldTitle(el)} é obrigatório para continuar.`;
+      container.appendChild(hint);
+    }
+  }
+
   function validateCurrent() {
     const required = [...steps[current].querySelectorAll('[required]')].filter(el => {
       const parent = el.closest('.conditional');
       return !parent || parent.classList.contains('show');
     });
     for (const el of required) {
+      clearRequiredError(el);
       if (el.type === 'checkbox' && !el.checked) {
-        el.focus();
+        markRequiredError(el);
+        el.closest('.consent')?.scrollIntoView({behavior:'smooth', block:'center'});
+        el.focus({preventScroll:true});
         errorBox.classList.add('show');
+        errorBox.textContent = 'Complete o campo destacado para continuar.';
         return false;
       }
-      if (!el.value || !el.checkValidity()) {
-        el.reportValidity();
+      if (!el.value.trim() || !el.checkValidity()) {
+        markRequiredError(el);
+        el.scrollIntoView({behavior:'smooth', block:'center'});
+        el.focus({preventScroll:true});
         errorBox.classList.add('show');
+        errorBox.textContent = 'Complete o campo destacado para continuar.';
         return false;
       }
     }
@@ -550,8 +586,8 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
     } catch(e) {}
   }
 
-  form.addEventListener('input', save);
-  form.addEventListener('change', () => { save(); updateConditionals(); });
+  form.addEventListener('input', (event) => { clearRequiredError(event.target); save(); });
+  form.addEventListener('change', (event) => { clearRequiredError(event.target); save(); updateConditionals(); });
 
   function updateConditionals() {
     const siteSel = document.getElementById('tem_site');
@@ -578,8 +614,9 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
     const targetStep = target ? steps.findIndex(step => step.contains(target)) : -1;
     if (targetStep >= 0) showStep(targetStep);
     errorBox.classList.add('show');
+    errorBox.textContent = 'Complete o campo destacado para continuar.';
     if (target) {
-      target.classList.add('server-error-focus');
+      markRequiredError(target);
       window.setTimeout(() => target.focus({preventScroll:true}), 80);
     }
   }
