@@ -509,8 +509,12 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
   function clearRequiredError(el) {
     el.classList.remove('required-error', 'server-error-focus');
     el.removeAttribute('aria-invalid');
-    const hint = el.closest('.consent')?.querySelector('.required-hint') || el.parentElement?.querySelector('.required-hint');
+    const visualTarget = el.closest('.consent') || el;
+    visualTarget.classList.remove('required-error', 'server-error-focus');
+    const container = visualTarget.closest('.field') || visualTarget.parentElement;
+    const hint = container?.querySelector('.required-hint');
     if (hint) hint.remove();
+    if (!form.querySelector('.required-error')) errorBox.classList.remove('show');
   }
 
   function markRequiredError(el) {
@@ -541,7 +545,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
         errorBox.textContent = 'Complete o campo destacado para continuar.';
         return false;
       }
-      if (!el.value.trim() || !el.checkValidity()) {
+      if (!el.value.trim()) {
         markRequiredError(el);
         el.scrollIntoView({behavior:'smooth', block:'center'});
         el.focus({preventScroll:true});
