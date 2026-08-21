@@ -1,10 +1,26 @@
+<?php
+declare(strict_types=1);
+require __DIR__ . '/app/bootstrap.php';
+
+$clientToken = strtolower(trim((string) ($_GET['c'] ?? '')));
+$client = client_by_token($clientToken);
+if (!$client) {
+    app_error_page('Link inválido', 'Peça à S3 Mídia um novo link individual para preencher o briefing.', 404);
+}
+if (($client['status'] ?? '') === 'concluido') {
+    app_error_page('Briefing já recebido', 'Obrigado, ' . $client['nome'] . '. Suas respostas já foram enviadas com sucesso.', 409);
+}
+
+$clientName = (string) $client['nome'];
+$storageKey = 's3-briefing-' . hash('sha256', $clientToken) . '-v2';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
-  <title>Briefing Estratégico | Pedro Muniz • S3 Mídia</title>
+  <title>Briefing Estratégico | <?= e($clientName) ?> • S3 Mídia</title>
   <style>
     :root {
       --bg: #f4f4f2;
@@ -170,7 +186,7 @@
 
     <section class="hero">
       <div class="eyebrow">Diagnóstico estratégico • 2026</div>
-      <h1>Pedro Muniz,<br>vamos construir sua marca profissional.</h1>
+      <h1><?= e($clientName) ?>,<br>vamos construir sua marca profissional.</h1>
       <p>Este briefing reúne as informações essenciais para a S3 Mídia desenvolver seu posicionamento, identidade visual, presença digital, site e estratégia de marketing de forma coerente com seus objetivos profissionais.</p>
       <div class="hero-meta">
         <span>⏱ 10–15 minutos</span>
@@ -188,8 +204,9 @@
     </div>
 
     <div class="form-card">
-      <form name="briefing-pedro-muniz" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/obrigado.html" id="briefingForm">
-        <input type="hidden" name="form-name" value="briefing-pedro-muniz">
+      <form name="briefing-s3" method="POST" action="/salvar.php" id="briefingForm">
+        <input type="hidden" name="client_token" value="<?= e($clientToken) ?>">
+        <input type="hidden" name="csrf_token" value="<?= e(csrf_token('public')) ?>">
         <p hidden><label>Não preencha: <input name="bot-field"></label></p>
 
         <!-- 1 -->
@@ -199,8 +216,8 @@
             <div><h2>Perfil profissional</h2><p>Começamos pela sua história e pelo momento atual da carreira.</p></div>
           </div>
           <div class="grid">
-            <div class="field"><label for="nome">Nome completo *</label><input id="nome" name="Nome completo" type="text" value="Pedro Muniz" required></div>
-            <div class="field"><label for="nome_prof">Nome profissional desejado *</label><input id="nome_prof" name="Nome profissional" type="text" placeholder="Ex.: Pedro Muniz Advocacia" required></div>
+            <div class="field"><label for="nome">Nome completo *</label><input id="nome" name="Nome completo" type="text" value="<?= e($clientName) ?>" required></div>
+            <div class="field"><label for="nome_prof">Nome profissional desejado *</label><input id="nome_prof" name="Nome profissional" type="text" placeholder="Ex.: <?= e($clientName) ?> Advocacia" required></div>
             <div class="field"><label for="cidade">Cidade / região de atuação *</label><input id="cidade" name="Cidade ou região" type="text" required></div>
             <div class="field"><label for="oab">OAB</label><input id="oab" name="OAB" type="text" placeholder="Informe se já estiver disponível"></div>
             <div class="field"><label for="faculdade">Faculdade e ano de formação</label><input id="faculdade" name="Formação" type="text"></div>
@@ -287,7 +304,7 @@
             </fieldset>
             <div class="field full"><label for="palavras">Escolha até 5 palavras que deveriam representar sua marca *</label><input id="palavras" name="Palavras da marca" type="text" placeholder="Ex.: confiança, clareza, estratégia, segurança, proximidade" required></div>
             <div class="field full"><label for="primeira_impressao">O que gostaria que uma pessoa pensasse ao encontrar seu perfil pela primeira vez?</label><textarea id="primeira_impressao" name="Primeira impressão desejada"></textarea></div>
-            <div class="field"><label for="nome_marca">Nome preferido para a marca</label><select id="nome_marca" name="Nome da marca"><option value="">Selecione</option><option>Pedro Muniz</option><option>Pedro Muniz Advocacia</option><option>Pedro Muniz Advocacia e Consultoria</option><option>PM Advocacia</option><option>Outro</option></select></div>
+            <div class="field"><label for="nome_marca">Nome preferido para a marca</label><select id="nome_marca" name="Nome da marca"><option value="">Selecione</option><option><?= e($clientName) ?></option><option><?= e($clientName) ?> Advocacia</option><option><?= e($clientName) ?> Advocacia e Consultoria</option><option>Outro</option></select></div>
             <div class="field"><label for="estilo">Estilo visual preferido</label><select id="estilo" name="Estilo visual"><option value="">Selecione</option><option>Minimalista</option><option>Clássico</option><option>Sofisticado</option><option>Corporativo</option><option>Moderno</option><option>Sóbrio</option><option>Não sei / quero orientação</option></select></div>
             <div class="field"><label for="cores">Cores que gosta</label><input id="cores" name="Cores preferidas" type="text"></div>
             <div class="field"><label for="evitar">Cores, símbolos ou estilos que deseja evitar</label><input id="evitar" name="Elementos a evitar" type="text"></div>
@@ -308,7 +325,7 @@
             <div class="field"><label for="google_perfil">Possui Perfil da Empresa no Google?</label><select id="google_perfil" name="Perfil da Empresa no Google"><option value="">Selecione</option><option>Sim</option><option>Não</option><option>Não sei</option></select></div>
             <div class="field"><label for="tem_site">Já possui site?</label><select id="tem_site" name="Possui site" data-toggle="site_url"><option value="">Selecione</option><option>Sim</option><option>Não</option></select></div>
             <div class="field conditional" id="site_url"><label for="site">Endereço do site</label><input id="site" name="Site atual" type="url" placeholder="https://..."></div>
-            <div class="field"><label for="dominio">Possui domínio registrado?</label><input id="dominio" name="Domínio" type="text" placeholder="Ex.: pedromuniz.com.br"></div>
+            <div class="field"><label for="dominio">Possui domínio registrado?</label><input id="dominio" name="Domínio" type="text" placeholder="Ex.: seunome.com.br"></div>
             <div class="field"><label for="fotos">Possui fotos profissionais?</label><select id="fotos" name="Fotos profissionais"><option value="">Selecione</option><option>Sim</option><option>Não</option><option>Tenho algumas, mas quero produzir novas</option></select></div>
             <fieldset class="field full">
               <legend>O que espera de um site profissional?</legend>
@@ -443,7 +460,7 @@
 
     <footer>
       <strong>S3 Mídia — Marketing & Publicidade</strong><br>
-      Briefing estratégico personalizado para Pedro Muniz.
+      Briefing estratégico personalizado para <?= e($clientName) ?>.
     </footer>
   </div>
 
@@ -458,7 +475,7 @@
   const stepLabel = document.getElementById('stepLabel');
   const percentLabel = document.getElementById('percentLabel');
   const errorBox = document.getElementById('errorBox');
-  const storageKey = 's3-briefing-pedro-muniz-v1';
+  const storageKey = <?= json_encode($storageKey, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
   let current = 0;
 
   function showStep(index) {
@@ -504,7 +521,7 @@
     const data = {};
     const fd = new FormData(form);
     for (const [k,v] of fd.entries()) {
-      if (k === 'form-name' || k === 'bot-field') continue;
+      if (k === 'client_token' || k === 'csrf_token' || k === 'bot-field') continue;
       if (data[k]) data[k] = Array.isArray(data[k]) ? [...data[k], v] : [data[k], v];
       else data[k] = v;
     }
@@ -548,31 +565,6 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
 
-    // Local preview fallback: when opened directly from the downloaded file,
-    // generate a text copy instead of failing silently.
-    if (location.protocol === 'file:') {
-      e.preventDefault();
-      const fd = new FormData(form);
-      let text = 'BRIEFING ESTRATÉGICO — PEDRO MUNIZ\nS3 MÍDIA — MARKETING & PUBLICIDADE\n\n';
-      const grouped = {};
-      for (const [k,v] of fd.entries()) {
-        if (k === 'form-name' || k === 'bot-field') continue;
-        if (!grouped[k]) grouped[k] = [];
-        grouped[k].push(v);
-      }
-      Object.entries(grouped).forEach(([k,vals]) => {
-        text += k.toUpperCase() + '\n' + vals.join(', ') + '\n\n';
-      });
-      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'Briefing_Pedro_Muniz.txt';
-      a.click();
-      URL.revokeObjectURL(a.href);
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Enviar briefing';
-      alert('Pré-visualização local: as respostas foram baixadas em .txt. Ao publicar no Netlify, o botão enviará o formulário online.');
-    }
   });
 
   showStep(0);
