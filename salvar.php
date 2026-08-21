@@ -56,11 +56,7 @@ if (count($answers) > 120 || $totalLength > 120000) {
     app_error_page('Respostas muito extensas', 'Reduza um pouco o conteúdo e tente novamente.', 422, $backUrl);
 }
 
-$required = [
-    'Histórico profissional',
-    'Área principal', 'Cliente ideal', 'Palavras da marca', 'Investimento mensal em marketing',
-    'Meta de 12 meses', 'Expectativa com a S3 Mídia',
-];
+$required = ['Expectativa com a S3 Mídia'];
 
 foreach ($required as $field) {
     if (!isset($answers[$field]) || !is_string($answers[$field]) || trim($answers[$field]) === '') {

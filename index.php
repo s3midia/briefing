@@ -230,7 +230,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
             <div class="field"><label for="oab">OAB</label><input id="oab" name="OAB" type="text" placeholder="Informe se já estiver disponível"></div>
             <div class="field"><label for="faculdade">Faculdade e ano de formação</label><input id="faculdade" name="Formação" type="text"></div>
             <div class="field"><label for="contato">WhatsApp / telefone</label><input id="contato" name="Contato" type="tel"></div>
-            <div class="field full"><label for="historia">Conte brevemente sua trajetória até a advocacia *</label><textarea id="historia" name="Histórico profissional" placeholder="Formação, estágios, experiências, decisões de carreira e momentos importantes." required></textarea></div>
+            <div class="field full"><label for="historia">Conte brevemente sua trajetória até a advocacia</label><textarea id="historia" name="Histórico profissional" placeholder="Formação, estágios, experiências, decisões de carreira e momentos importantes."></textarea></div>
             <div class="field full"><label for="experiencia">Experiências profissionais ou jurídicas relevantes</label><textarea id="experiencia" name="Experiências relevantes" placeholder="Escritórios, empresas, estágios, projetos, áreas em que já teve contato etc."></textarea></div>
           </div>
         </section>
@@ -248,7 +248,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
                 <label class="choice"><input type="checkbox" name="Áreas de atuação" value="Civil"><span>Civil</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Trabalhista"><span>Trabalhista</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Empresarial"><span>Empresarial</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Tributário"><span>Tributário</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Previdenciário"><span>Previdenciário</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Família e Sucessões"><span>Família e Sucessões</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Imobiliário"><span>Imobiliário</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Agronegócio"><span>Agronegócio</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Consumidor"><span>Consumidor</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Criminal"><span>Criminal</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Contratos"><span>Contratos</span></label><label class="choice"><input type="checkbox" name="Áreas de atuação" value="Outra"><span>Outra</span></label>
               </div>
             </fieldset>
-            <div class="field"><label for="principal_area">Principal área / prioridade *</label><input id="principal_area" name="Área principal" type="text" required></div>
+            <div class="field"><label for="principal_area">Principal área / prioridade</label><input id="principal_area" name="Área principal" type="text"></div>
             <div class="field"><label for="especializacao">Especialização atual ou planejada</label><input id="especializacao" name="Especialização" type="text"></div>
             <fieldset class="field full">
               <legend>Modelo de atuação desejado</legend>
@@ -290,7 +290,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
                 <label class="choice"><input type="checkbox" name="Perfil de cliente" value="Outro"><span>Outro</span></label>
               </div>
             </fieldset>
-            <div class="field full"><label for="cliente_ideal">Descreva seu cliente ideal *</label><textarea id="cliente_ideal" name="Cliente ideal" placeholder="Perfil, profissão ou segmento, poder de decisão, região, necessidades, tipo de problema que costuma enfrentar." required></textarea></div>
+            <div class="field full"><label for="cliente_ideal">Descreva seu cliente ideal</label><textarea id="cliente_ideal" name="Cliente ideal" placeholder="Perfil, profissão ou segmento, poder de decisão, região, necessidades, tipo de problema que costuma enfrentar."></textarea></div>
             <div class="field"><label for="regioes">Cidades / regiões que deseja atender</label><input id="regioes" name="Regiões de interesse" type="text"></div>
             <div class="field"><label for="segmentos">Segmentos específicos de interesse</label><input id="segmentos" name="Segmentos de interesse" type="text" placeholder="Ex.: agro, comércio, construção, saúde..."></div>
             <div class="field full"><label for="dores">Quais são os principais problemas que esse público enfrenta e que você pode ajudar a resolver?</label><textarea id="dores" name="Dores do público"></textarea></div>
@@ -310,7 +310,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
                 <label class="choice"><input type="checkbox" name="Percepção desejada" value="Sofisticado"><span>Sofisticado</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Moderno"><span>Moderno</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Tradicional"><span>Tradicional</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Próximo"><span>Próximo</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Técnico"><span>Técnico</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Estratégico"><span>Estratégico</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Premium"><span>Premium</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Corporativo"><span>Corporativo</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Inovador"><span>Inovador</span></label><label class="choice"><input type="checkbox" name="Percepção desejada" value="Acessível"><span>Acessível</span></label>
               </div>
             </fieldset>
-            <div class="field full"><label for="palavras">Escolha até 5 palavras que deveriam representar sua marca *</label><input id="palavras" name="Palavras da marca" type="text" placeholder="Ex.: confiança, clareza, estratégia, segurança, proximidade" required></div>
+            <div class="field full"><label for="palavras">Escolha até 5 palavras que deveriam representar sua marca</label><input id="palavras" name="Palavras da marca" type="text" placeholder="Ex.: confiança, clareza, estratégia, segurança, proximidade"></div>
             <div class="field full"><label for="primeira_impressao">O que gostaria que uma pessoa pensasse ao encontrar seu perfil pela primeira vez?</label><textarea id="primeira_impressao" name="Primeira impressão desejada"></textarea></div>
             <div class="field"><label for="nome_marca">Nome preferido para a marca</label><select id="nome_marca" name="Nome da marca"><option value="">Selecione</option><option><?= e($clientName) ?></option><option><?= e($clientName) ?> Advocacia</option><option><?= e($clientName) ?> Advocacia e Consultoria</option><option>Outro</option></select></div>
             <div class="field"><label for="estilo">Estilo visual preferido</label><select id="estilo" name="Estilo visual"><option value="">Selecione</option><option>Minimalista</option><option>Clássico</option><option>Sofisticado</option><option>Corporativo</option><option>Moderno</option><option>Sóbrio</option><option>Não sei / quero orientação</option></select></div>
@@ -388,7 +388,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
           <div class="grid">
             <div class="field">
               <label for="invest_mkt">Investimento mensal em gestão e marketing *</label>
-              <select id="invest_mkt" name="Investimento mensal em marketing" required>
+              <select id="invest_mkt" name="Investimento mensal em marketing">
                 <option value="">Selecione uma faixa</option>
                 <option>Até R$ 1.000</option>
                 <option>R$ 1.000 a R$ 1.500</option>
@@ -427,7 +427,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
               <label for="prazo">Quando gostaria de iniciar?</label>
               <select id="prazo" name="Prazo de início"><option value="">Selecione</option><option>Imediatamente</option><option>Nos próximos 15 dias</option><option>Em até 30 dias</option><option>Em 2–3 meses</option><option>Ainda estou planejando</option></select>
             </div>
-            <div class="field full"><label for="meta12">Onde você gostaria de estar profissionalmente daqui a 12 meses? *</label><textarea id="meta12" name="Meta de 12 meses" required></textarea></div>
+            <div class="field full"><label for="meta12">Onde você gostaria de estar profissionalmente daqui a 12 meses?</label><textarea id="meta12" name="Meta de 12 meses"></textarea></div>
             <div class="field"><label for="clientes_mes">Meta de novos clientes / mês</label><input id="clientes_mes" name="Meta de clientes por mês" type="text" placeholder="Ex.: 5, 10, 20..."></div>
             <div class="field"><label for="faturamento">Meta aproximada de faturamento mensal</label><input id="faturamento" name="Meta de faturamento" type="text" placeholder="Opcional"></div>
             <div class="field full"><label for="resultado_ideal">Qual seria o resultado ideal deste trabalho de marketing para você?</label><textarea id="resultado_ideal" name="Resultado ideal"></textarea></div>
