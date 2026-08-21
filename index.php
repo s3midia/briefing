@@ -444,7 +444,7 @@ unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
             <div class="field full"><label for="referencias">Advogados ou escritórios que considera referência</label><textarea id="referencias" name="Referências de mercado" placeholder="Cite até 3 e, se possível, informe Instagram ou site."></textarea></div>
             <div class="field full"><label for="concorrentes">Concorrentes diretos na sua cidade ou região</label><textarea id="concorrentes" name="Concorrentes diretos"></textarea></div>
             <div class="field full"><label for="diferencial">Como acredita que pode se diferenciar?</label><textarea id="diferencial" name="Diferenciais"></textarea></div>
-            <div class="field full"><label for="expectativa">Qual a sua maior expectativa em relação à S3 Mídia? *</label><textarea id="expectativa" name="Expectativa com a S3 Mídia" required></textarea></div>
+            <div class="field full"><label for="expectativa">Qual a sua maior expectativa em relação à S3 Mídia?</label><textarea id="expectativa" name="Expectativa com a S3 Mídia"></textarea></div>
             <div class="field full"><label for="extra">Existe alguma informação importante que não perguntamos?</label><textarea id="extra" name="Informações adicionais"></textarea></div>
             <div class="field full">
               <div class="consent">
