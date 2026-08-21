@@ -13,6 +13,9 @@ if (($client['status'] ?? '') === 'concluido') {
 
 $clientName = (string) $client['nome'];
 $storageKey = 's3-briefing-' . hash('sha256', $clientToken) . '-v2';
+$formError = (string) ($_SESSION['briefing_form_error'] ?? '');
+$formErrorField = $_SESSION['briefing_form_error_field'] ?? null;
+unset($_SESSION['briefing_form_error'], $_SESSION['briefing_form_error_field']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -152,6 +155,7 @@ $storageKey = 's3-briefing-' . hash('sha256', $clientToken) . '-v2';
       border-radius:13px; padding:11px 13px; font-size:12px;
     }
     .error.show { display:block; }
+    .server-error-focus { outline:3px solid #d65b4f; outline-offset:3px; }
 
     footer { padding: 0 0 38px; text-align:center; color:#737572; font-size:11px; }
     footer strong { color:#111; }
@@ -448,7 +452,7 @@ $storageKey = 's3-briefing-' . hash('sha256', $clientToken) . '-v2';
           </div>
         </section>
 
-        <div class="error" id="errorBox">Preencha os campos obrigatórios desta etapa antes de continuar.</div>
+        <div class="error<?= $formError !== '' ? ' show' : '' ?>" id="errorBox" role="alert"><?= e($formError !== '' ? $formError : 'Preencha os campos obrigatórios desta etapa antes de continuar.') ?></div>
         <div class="nav">
           <span class="save-note">Rascunho salvo automaticamente</span>
           <button class="btn-ghost" type="button" id="prevBtn" style="display:none">Voltar</button>
@@ -475,6 +479,7 @@ $storageKey = 's3-briefing-' . hash('sha256', $clientToken) . '-v2';
   const stepLabel = document.getElementById('stepLabel');
   const percentLabel = document.getElementById('percentLabel');
   const errorBox = document.getElementById('errorBox');
+  const serverErrorField = <?= json_encode(is_string($formErrorField) ? $formErrorField : null, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
   const storageKey = <?= json_encode($storageKey, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
   let current = 0;
 
@@ -568,6 +573,15 @@ $storageKey = 's3-briefing-' . hash('sha256', $clientToken) . '-v2';
   });
 
   showStep(0);
+  if (serverErrorField) {
+    const target = [...form.querySelectorAll('[name]')].find(el => el.name === serverErrorField);
+    const targetStep = target ? steps.findIndex(step => step.contains(target)) : -1;
+    if (targetStep >= 0) showStep(targetStep);
+    if (target) {
+      target.classList.add('server-error-focus');
+      window.setTimeout(() => target.focus({preventScroll:true}), 80);
+    }
+  }
 })();
 </script>
 </body>

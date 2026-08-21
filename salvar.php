@@ -64,11 +64,11 @@ $required = [
 
 foreach ($required as $field) {
     if (!isset($answers[$field]) || !is_string($answers[$field]) || trim($answers[$field]) === '') {
-        app_error_page('Campo obrigatório pendente', 'Preencha todas as perguntas marcadas com asterisco antes de enviar.', 422, $backUrl);
+        redirect_form_error($token, 'Preencha este campo obrigatório antes de enviar.', $field);
     }
 }
 if (($answers['Consentimento'] ?? '') !== 'Sim') {
-    app_error_page('Consentimento necessário', 'Marque a autorização no final do formulário para concluir o envio.', 422, $backUrl);
+    redirect_form_error($token, 'Marque a autorização antes de enviar o briefing.', 'Consentimento');
 }
 
 $pdo = db();

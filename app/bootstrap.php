@@ -150,6 +150,17 @@ function client_by_token(string $token, bool $lock = false): ?array
     return $client ?: null;
 }
 
+function redirect_form_error(string $token, string $message, ?string $field = null): never
+{
+    if (preg_match('/^[a-f0-9]{48}$/', $token)) {
+        $_SESSION['briefing_form_error'] = $message;
+        $_SESSION['briefing_form_error_field'] = $field;
+        header('Location: /?c=' . rawurlencode($token), true, 303);
+        exit;
+    }
+    app_error_page('Link inválido', 'Peça à S3 Mídia um novo link individual.', 404);
+}
+
 function base_url(): string
 {
     return rtrim((string) config('base_url', 'https://briefing.s3midiadigital.com.br'), '/');
