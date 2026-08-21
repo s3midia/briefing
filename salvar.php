@@ -57,7 +57,7 @@ if (count($answers) > 120 || $totalLength > 120000) {
 }
 
 $required = [
-    'Cidade ou região', 'Histórico profissional',
+    'Histórico profissional',
     'Área principal', 'Cliente ideal', 'Palavras da marca', 'Investimento mensal em marketing',
     'Meta de 12 meses', 'Expectativa com a S3 Mídia',
 ];
