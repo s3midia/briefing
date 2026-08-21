@@ -1,6 +1,12 @@
 DirectoryIndex index.php
 Options -Indexes
 
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} \s/+index\.html(?:[?\s]) [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+</IfModule>
+
 <FilesMatch "^(config\.example\.php|schema\.sql|\.git.*)$">
   Require all denied
 </FilesMatch>
